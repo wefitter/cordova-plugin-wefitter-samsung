@@ -4,7 +4,7 @@ Cordova plugin for integrating WeFitter and Samsung Health into your app.
 
 ## Requirements
 
-- Kotlin 1.5.20
+- Kotlin
   - See this [guide](https://developer.android.com/kotlin/add-kotlin) on how to add Kotlin support to your app.
 - minSdkVersion 23
   - See this [link](https://developer.android.com/studio/publish/versioning#minsdkversion) for more information.
@@ -24,6 +24,11 @@ You do have to upload an app to the Play Console before your app can be approved
 
 During the approval process you will be asked for a list of datatypes. This SDK supports the following datatypes so during the approval process please ask read access for at least the following:
 
+- Blood glucose
+- Blood pressure
+- Body fat
+- Body temperature
+- Oxygen saturation
 - Heart rate
 - Height
 - Weight
@@ -41,12 +46,12 @@ To use Samsung Health without developer mode make sure you build the app in rele
 
 ### Historical data
 
-When the connection has been enabled for the first time it will fetch data of the last 24 hours. Sleep data is an exception to this as it will fetch data since 12pm UTC of the previous day. Further historical data is not available.
+When the connection has been enabled for the first time it will fetch data of the past 7 days. To override this you can pass a `startDate` in the `configure` function.
 
 ## Installation
 
 ```sh
-cordova plugin add https://github.com/ThunderbyteAI/cordova-plugin-wefitter-samsung.git#v0.0.1
+cordova plugin add https://github.com/ThunderbyteAI/cordova-plugin-wefitter-samsung.git#v0.1.0
 ```
 
 ## Usage
@@ -125,7 +130,8 @@ const failure = (error) => {
 // create config
 const config = {
   token: "YOUR_TOKEN", // required
-  apiUrl: "YOUR_API_URL", // required
+  apiUrl: "YOUR_API_URL", // required, the url should be base without `v1/ingest/` as the library will append this. For example: `https://api.wefitter.com/api/`
+  startDate: "CUSTOM_START_DATE", // optional with format `yyyy-MM-dd`, by default data of the past 7 days will be uploaded
   notificationTitle: "CUSTOM_TITLE", // optional
   notificationText: "CUSTOM_TEXT", // optional
   notificationIcon: "CUSTOM_ICON", // optional, e.g. `ic_notification` placed in either drawable, mipmap or raw

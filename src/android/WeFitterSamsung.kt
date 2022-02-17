@@ -9,6 +9,8 @@ import org.apache.cordova.PluginResult
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.*
 
 class WeFitterSamsung : CordovaPlugin() {
 
@@ -20,6 +22,7 @@ class WeFitterSamsung : CordovaPlugin() {
     private class Config(
         val token: String,
         val apiUrl: String,
+        val startDate: String?,
         val notificationTitle: String?,
         val notificationText: String?,
         val notificationIcon: String?,
@@ -61,7 +64,8 @@ class WeFitterSamsung : CordovaPlugin() {
     private fun configure(args: JSONArray) {
         val config = parseConfig(args)
         if (config === null) {
-            sendPluginResult(PluginResult.Status.ERROR, "No (valid) config passed")
+            val json = createJsonForError("No (valid) config passed", false)
+            sendPluginResult(PluginResult.Status.ERROR, json)
         } else {
             val statusListener = object : WeFitterSHealth.StatusListener {
                 override fun onConfigured(configured: Boolean) {
@@ -77,13 +81,19 @@ class WeFitterSamsung : CordovaPlugin() {
                 override fun onError(error: WeFitterSHealthError) {
                     // save error so we can find it again for `tryToResolve` function
                     errors[error.reason] = error
-                    val json =
-                        """{"reason":"${error.reason.message}","forUser":${error.reason.forUser}}"""
-                    sendPluginResult(PluginResult.Status.ERROR, JSONObject(json))
+                    val json = createJsonForError(error.reason.message, error.reason.forUser)
+                    sendPluginResult(PluginResult.Status.ERROR, json)
                 }
             }
             val notificationConfig = parseNotificationConfig(config)
-            weFitter.configure(config.token, config.apiUrl, statusListener, notificationConfig)
+            val startDate = parseStartDate(config)
+            weFitter.configure(
+                config.token,
+                config.apiUrl,
+                statusListener,
+                notificationConfig,
+                startDate
+            )
         }
     }
 
@@ -108,6 +118,11 @@ class WeFitterSamsung : CordovaPlugin() {
         } catch (e: JSONException) {
             // ignore
         }
+    }
+
+    private fun createJsonForError(message: String, forUser: Boolean): JSONObject {
+        val json = """{"reason":"$message","forUser":$forUser}"""
+        return JSONObject(json)
     }
 
     private fun sendPluginResult(status: PluginResult.Status, message: String) {
@@ -142,6 +157,26 @@ class WeFitterSamsung : CordovaPlugin() {
             config.notificationChannelId?.let { this.channelId = it }
             config.notificationChannelName?.let { this.channelName = it }
         }
+    }
+
+    private fun parseStartDate(config: Config): Date? {
+        val startDateString = config.startDate
+        if (startDateString != null) {
+            return try {
+                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+                sdf.timeZone = TimeZone.getTimeZone("UTC")
+                sdf.parse(startDateString)
+            } catch (e: Exception) {
+                val json =
+                    createJsonForError(
+                        "Passed start date `$startDateString` is not valid. Using default",
+                        false
+                    )
+                sendPluginResult(PluginResult.Status.ERROR, json)
+                null
+            }
+        }
+        return null
     }
 
     private fun getResourceId(resourceName: String): Int {
