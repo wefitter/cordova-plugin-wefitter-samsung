@@ -51,7 +51,7 @@ When the connection has been enabled for the first time it will fetch data of th
 ## Installation
 
 ```sh
-cordova plugin add https://github.com/ThunderbyteAI/cordova-plugin-wefitter-samsung.git#v0.1.0
+cordova plugin add https://github.com/ThunderbyteAI/cordova-plugin-wefitter-samsung.git#v0.2.0
 ```
 
 ## Usage
