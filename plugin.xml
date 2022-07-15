@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-wefitter-samsung" version="0.2.0">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-wefitter-samsung" version="0.3.0">
     <name>WeFitterSamsung</name>
     <description>A Cordova plugin for WeFitter for Samsung Health</description>
     <keywords>cordova,android,wefitter,samsung</keywords>
@@ -22,7 +22,7 @@
         <source-file src="src/android/WeFitterSamsung.kt" target-dir="src/main/kotlin/com/wefitter/cordova/plugin" />
 
         <lib-file src="libs/android/samsung-health-data-1.5.0.aar" />
-        <lib-file src="libs/android/wefitter-shealth-1.1.0.aar" />
+        <lib-file src="libs/android/wefitter-shealth-1.3.0.aar" />
 
         <framework src="build-extras.gradle" custom="true" type="gradleReference" />
         <framework src="androidx.security:security-crypto:1.0.0" />
