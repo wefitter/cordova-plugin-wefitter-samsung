@@ -6,5 +6,5 @@ allprojects {
 
 dependencies {
     implementation files('libs/samsung-health-data-1.5.0.aar')
-    implementation files('libs/wefitter-shealth-1.4.0.aar')
+    implementation files('libs/wefitter-shealth-1.5.0.aar')
 }
