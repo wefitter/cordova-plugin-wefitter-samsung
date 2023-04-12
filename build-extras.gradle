@@ -1,10 +1,4 @@
-allprojects {
-    repositories {
-        maven { url 'https://jitpack.io' }
-    }
-}
-
 dependencies {
     implementation files('libs/samsung-health-data-1.5.0.aar')
-    implementation files('libs/wefitter-shealth-1.5.1.aar')
+    implementation files('libs/wefitter-shealth-2.0.0.aar')
 }

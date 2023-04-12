@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.2
+
+Updated dependencies
+
+Added "Version" header to ingest call
+
 ## 0.5.1
 
 Changed default start date from 7 to 20 days back
