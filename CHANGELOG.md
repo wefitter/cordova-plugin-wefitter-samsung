@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.3
+
+Fixed an issue where daily summaries with steps were not uploaded when heart rate permission was missing
+
 ## 0.5.2
 
 Updated dependencies

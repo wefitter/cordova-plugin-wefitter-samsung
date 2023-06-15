@@ -1,4 +1,4 @@
 dependencies {
     implementation files('libs/samsung-health-data-1.5.0.aar')
-    implementation files('libs/wefitter-shealth-2.0.0.aar')
+    implementation files('libs/wefitter-shealth-2.0.1.aar')
 }
